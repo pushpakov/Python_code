@@ -165,28 +165,31 @@ knights = {'gallahad': 'the pure', 'robin': 'the brave'}
 # for i,v in enumerate(knights):
     #  print(i,v)
 
-# To loop over two or more sequences at the same time, the entries can be paired with the zip() function.
+# # To loop over two or more sequences at the same time, the entries can be paired with the zip() function.
 
-questions = ['name', 'quest', 'favorite color']
-answers = ['lancelot', 'the holy grail', 'blue']
-for q, a in zip(questions, answers):
-     print(q,"...........",a,",,,,,,,,,") 
-     print('What is your {0}?  It is {1}.'.format(q, a))
+# questions = ['name', 'quest', 'favorite color']
+# answers = ['lancelot', 'the holy grail', 'blue']
+# for q, a in zip(questions, answers):
+#      print(q,"...........",a,",,,,,,,,,") 
+#      print('What is your {0}?  It is {1}.'.format(q, a))
     
 
-# comparison in python 
+# # comparison in python 
 
-print((1, 2, 3)              < (1, 2, 4))
-print([1, 2, 3]              < [1, 2, 4])
-print('ABC' < 'C' < 'Pascal' < 'Python')
-print((1, 2, 3, 4)           < (1, 2, 4))
-print((1, 2)                 < (1, 2, -1))
-print((1, 2, 3)             == (1.0, 2.0, 3.0))
-print((1, 2, ('aa', 'ab'))   < (1, 2, ('abc', 'a'), 4))
-
-
+# print((1, 2, 3)              < (1, 2, 4))
+# print([1, 2, 3]              < [1, 2, 4])
+# print('ABC' < 'C' < 'Pascal' < 'Python')
+# print((1, 2, 3, 4)           < (1, 2, 4))
+# print((1, 2)                 < (1, 2, -1))
+# print((1, 2, 3)             == (1.0, 2.0, 3.0))
+# print((1, 2, ('aa', 'ab'))   < (1, 2, ('abc', 'a'), 4))
 
 
+
+# Module
+
+from fibonacci import fib
+print(fib(10))
 
 
 
