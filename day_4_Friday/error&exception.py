@@ -118,3 +118,17 @@
 # except InputError as e:
 #     print('InputError:', e.message)
 
+
+# pre-defined clean up actions 
+# """The first block of code opens a file in read mode using the open() function, then reads each line of the file using a for loop, and prints it to the console. This method has the disadvantage of leaving the file open even after the program has finished executing, which can cause issues if the file is being accessed by another program or user.
+
+# The second block of code also opens the file in read mode, but instead of using a for loop to iterate over each line, it uses a with statement and the open() function to create a context in which the file is automatically closed once the block of code is finished executing. This method is considered safer and more efficient, as it ensures that the file is properly closed and resources are released when they are no longer needed.
+# """
+# for line in open("python/README.md"):
+#     print(line, end="")
+
+
+# with open("python/README.md") as f:
+#     for line in f:
+#         print(line, end="")
+

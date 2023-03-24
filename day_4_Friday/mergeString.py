@@ -15,3 +15,5 @@ try:
     print("Merged string:", result)
 except EmptyStringException as e:
     print("Error:", str(e))
+finally:
+    print("Execution complete.")
