@@ -33,10 +33,12 @@
 #     raise ValueError("x should be positive number")
 
 
-# # Python code block that uses a try-except block to handle possible errors that may occur during the execution of the code
+# # # Python code block that uses a try-except block to handle possible errors that may occur during the execution of the code
+
 # import sys
 
 # try:
+#     # x = 1/0
 #     f = open('myfile.txt')
 #     s = f.readline()
 #     i = int(s.strip())
@@ -47,3 +49,23 @@
 # except:
 #     print("Unexpected error:", sys.exc_info()[0])
 #     raise
+
+
+# # else clause in try except exception handling 
+# try:
+#     # Code that may raise an exception
+#     x = int(input("Enter a number: "))
+#     y = int(input("Enter another number: "))
+#     result = x / y
+# except ZeroDivisionError:
+#     # Code to handle a specific exception
+#     print("Cannot divide by zero.")
+# except ValueError:
+#     # Code to handle a specific exception
+#     print("Invalid input. Please enter a number.")
+# else:
+#     # Code to be executed if no exception is raised
+#     print("Result:", result)
+
+
+
