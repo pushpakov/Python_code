@@ -68,4 +68,53 @@
 #     print("Result:", result)
 
 
+# # exception using the argument 
+# try:
+#      raise Exception('spam', 'eggs')
+# except Exception as inst:
+#      print(type(inst))    # the exception instance
+#      print(inst.args)     # arguments stored in .args
+#      print(inst)          # __str__ allows args to be printed directly,
+#                           # but may be overridden in exception subclasses
+#      x, y = inst.args     # unpack args
+#      print('x =', x)
+#      print('y =', y) 
+
+# print(Exception.args)    # this will print attribute args of base exception object
+
+# #  a simple way is to re-raise the unhandled exception to show the exception in the code using raise keyword
+# try:
+#     raise NameError("hello")
+# except NameError:
+#     print("an exception has occured")
+#     raise
+
+
+# # # user defined exception with example 
+
+# class Error(Exception):
+#     pass
+
+# class InputError(Error):
+#     def __init__(self, expression, message):
+#         self.expression = expression
+#         self.message = message
+
+# class TransitionError(Error):
+#     def __init__(self, previous, next, message):
+#         self.previous = previous
+#         self.next = next
+#         self.message = message
+
+
+
+# def divide(x, y):
+#     if y == 0:
+#         raise InputError('division by zero', 'second argument cannot be zero')
+#     else:
+#         return x / y
+# try:
+#     result = divide(10, 0)
+# except InputError as e:
+#     print('InputError:', e.message)
 
