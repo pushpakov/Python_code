@@ -33,17 +33,17 @@
 #     raise ValueError("x should be positive number")
 
 
+# # Python code block that uses a try-except block to handle possible errors that may occur during the execution of the code
+# import sys
 
-import sys
-
-try:
-    f = open('myfile.txt')
-    s = f.readline()
-    i = int(s.strip())
-except OSError as err:
-    print("OS error: {0}".format(err))
-except ValueError:
-    print("Could not convert data to an integer.")
-except:
-    print("Unexpected error:", sys.exc_info()[0])
-    raise
+# try:
+#     f = open('myfile.txt')
+#     s = f.readline()
+#     i = int(s.strip())
+# except OSError as err:
+#     print("OS error: {0}".format(err))
+# except ValueError:
+#     print("Could not convert data to an integer.")
+# except:
+#     print("Unexpected error:", sys.exc_info()[0])
+#     raise
