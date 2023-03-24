@@ -11,7 +11,7 @@ def fib(n):
         a, b = b, a+b
     return result
 
-# # test the function with some sample input
+# # executing module as script
 if __name__ == "__main__":
     print(fib(21))
 

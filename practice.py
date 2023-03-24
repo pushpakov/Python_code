@@ -142,11 +142,11 @@
 # # letter in a or b but not in both 
 # print(a^b)
 
-# Dictonary 
-tel = {'jack': 4098, 'sape': 4139}
+# # Dictonary 
+# tel = {'jack': 4098, 'sape': 4139}
 
-# print(tel)
-tel['pushpak'] = 41514
+# # print(tel)
+# tel['pushpak'] = 41514
 
 # print(tel)
 # del tel['sape']
@@ -186,15 +186,96 @@ knights = {'gallahad': 'the pure', 'robin': 'the brave'}
 
 
 
-# Module
+# # Module
 
-from fibonacci import fib
-print(fib(10))
+# from fibonacci import fib
+# # print(fib(10))
+
+# # standard module 
+# # dir()
+# my_list = [1, 2, 3]
+# # print(dir(my_list))  #This will output a list of attributes and methods that are defined for the list object
+
+# # print(dir(fib))      #This will output a list of attributes and methods that are defined for the fib object
+
+# # dir() does not list the names of built-in functions and variables. If you want a list of those, they are defined in the standard module builtins:
+
+# # print(dir(__builtins__)) 
 
 
+# # list into tuple 
+
+# month = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']  
+# converting_list = tuple(month)  
+# print(converting_list)  
+# print(type(converting_list))  
 
 
+# # str and repr 
 
+# class Person:
+#     def __init__(self, name, age):
+#         self.name = name
+#         self.age = age
+
+#     def __str__(self):
+#         return f"{self.name} ({self.age})"
+
+#     def __repr__(self):
+#         return f"Person(name='{self.name}', age={self.age})"
+
+# p = Person("Alice", 25)
+
+# print(str(p))    # "Alice (25)"
+# print(repr(p))   # "Person(name='Alice', age=25)"
+
+
+# # Formatted String Literals
+# name = "Alice"
+# age = 25
+# print(f"My name is {name} and I'm {age} years old.")
+
+# # String literals 
+# import math
+# # print(f'The value of pi is approximately {math.pi:.3f}.')
+# # to leave space between we can use :
+# print(f'The value of pi is approximately {math.pi:10.3f}.') 
+
+
+# # Other modifiers can be used to convert the value before it is formatted. '!a' applies ascii(), '!s' applies str(), and '!r' applies repr():
+
+# animals = 'eels'
+# print(f'My hovercraft is full of {animals}.')
+
+# print(f'My hovercraft is full of {animals!r}.')
+
+# # Basic usage of the str.format() method
+# print('We are the {} who say "{}!"'.format('knights', 'Ni'))
+
+# # for long format of string here just passing one argument to the format method
+# table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+# print('Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; '
+#     'Dcab: {0[Dcab]:d}'.format(table))
+
+# # passing as keyword argument 
+# table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+# print('Jack: {Jack:d}; Sjoerd: {Sjoerd:d}; Dcab: {Dcab:d}'.format(**table))
+
+
+# for x in range(1,11):
+#     print('{0:2d} {1:3d} {2:4d}'.format(x, x*x, x*x*x))
+
+# # manual foratting 
+# for x in range(1, 11):
+#      print(repr(x).rjust(2), repr(x*x).rjust(3), end=' ')
+#      # Note use of 'end' on previous line
+#      print(repr(x*x*x).rjust(4))
+
+
+# # only immutable objects can be the key in dictonary if we will put list instead of tuple it will throw the error
+# dictonary = {("pushpak","kumar") : 123,("rahul","singh"):12345}
+# for x in dictonary.items():
+#     print(x)
 
 
 
