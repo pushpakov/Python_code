@@ -14,7 +14,7 @@ logging.warning('This will get logged to a file')
 # The defined levels, in order of increasing severity, are the following:
 
 # DEBUG
-# INFO
+# INFO 
 # WARNING
 # ERROR
 # CRITICAL
@@ -30,4 +30,8 @@ logging.critical('Critical error -- shutting down')
 # # formatting the output
 # logging.basicConfig(format='%(process)d-%(levelname)s-%(message)s')
 # logging.warning('This is a Warning')
+
+# # logging variable data 
+# name = 'John'
+# logging.error('%s raised an error', name)
 
