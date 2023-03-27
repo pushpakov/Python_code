@@ -1,6 +1,7 @@
 # class to create user defined exception to handle exception handling and take two string from user and merge them as result to return 
 
 class EmptyStringException(Exception):   # this is a class to create user defined exception which extends the Exception class
+
     pass
 
 def merge_strings(s1, s2):
@@ -14,6 +15,6 @@ try:
     result = merge_strings(s1, s2)
     print("Merged string:", result)
 except EmptyStringException as e:
-    print("Error:", str(e))
+    print("Error:", str(e)) 
 finally:
     print("Execution complete.")
