@@ -84,6 +84,44 @@
 
 
 
+# # isinstance() method and issubclass() method 
+
+# class Animal:
+#     pass
+
+# class Dog(Animal):
+#     pass
+
+# class Cat(Animal):
+#     pass
+
+# # Example of isinstance method
+# dog = Dog()
+# cat = Cat()
+# animal = Animal()
+
+# print(isinstance(dog, Dog))    # Output: True
+# print(isinstance(cat, Animal)) # Output: True
+# print(isinstance(animal, Cat)) # Output: False
+
+# # Example of issubclass method
+# print(issubclass(Dog, Animal)) # Output: True
+# print(issubclass(Cat, Dog))    # Output: False
+# print(issubclass(Animal, Cat)) # Output: False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
