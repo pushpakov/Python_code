@@ -110,9 +110,48 @@
 # print(issubclass(Animal, Cat)) # Output: False
 
 
+# # multiple inheritance 
+
+# class Parent1:
+#     def method1(self):
+#         print("This is method 1 from Parent 1.")
+
+# class Parent2:
+#     def method2(self):
+#         print("This is method 2 from Parent 2.")
+
+# class Child(Parent1, Parent2):     # here the class is inherating from two different class 
+#     pass
+
+# child = Child()
+# child.method1() # Output: "This is method 1 from Parent 1."
+# child.method2() # Output: "This is method 2 from Parent 2."
 
 
 
+# # multi-level inheritance with example 
+
+# class Grandparent:
+#     def method1(self):
+#         print("This is method 1 from Grandparent.")
+
+# class Parent(Grandparent):
+#     def method2(self):
+#         print("This is method 2 from Parent.")
+
+# class Child(Parent):
+#     def method3(self):
+#         print("This is method 3 from Child.")
+
+# class Grandchild(Child):
+#     def method4(self):
+#         print("This is method 4 from Grandchild.")
+
+# grandchild = Grandchild()                      # here the grandchild will have all the characterstics of child class, parent class, and grandparent
+# grandchild.method1() # Output: "This is method 1 from Grandparent."
+# grandchild.method2() # Output: "This is method 2 from Parent."
+# grandchild.method3() # Output: "This is method 3 from Child."
+# grandchild.method4() # Output: "This is method 4 from Grandchild."
 
 
 
