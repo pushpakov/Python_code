@@ -6,8 +6,8 @@ import logging
 # # filemode: If filename is given, the file is opened in this mode. The default is a, which means append.
 # # format: This is the format of the log message.
 
-# logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-# logging.warning('This will get logged to a file')
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.warning('This will get logged to a file')
 
 
 
