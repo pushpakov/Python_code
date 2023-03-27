@@ -155,6 +155,53 @@
 
 
 
+# # private variable in class
+# class MyClass:
+#     def __init__(self):
+#         self.public_variable = "This is a public variable"
+#         self.__private_variable = "This is a private variable"
+    
+#     def update(self, y):
+#         self.__private_variable = y
+
+#     __private_variable = "This is updated private variable"
+    
+        
+# my_object = MyClass()
+
+# print(my_object.public_variable)   # This will print "This is a public variable"
+# # print(my_object.__private_variable)  # This will raise an AttributeError
+
+
+# # updating the privare variable in class as we cannot access the private variable in outside the class
+# class MyClass:
+#     def __init__(self):
+#         self.public_variable = "This is a public variable"
+#         self.__private_variable = "This is a private variable"
+        
+#     def update_private_variable(self, new_value):
+#         self.__private_variable = new_value
+    
+#     def get_private_variable(self):
+#         return self.__private_variable
+
+# my_object = MyClass()
+
+# print(my_object.get_private_variable())   # This will print "This is a private variable"
+# my_object.update_private_variable("New value for private variable")
+# print(my_object.get_private_variable())   # This will print "New value for private variable"
+
+
+# # iterators 
+# for element in [1, 2, 3]:
+#     print("list",element)
+# for element in (1, 2, 3):
+#     print("tuple",element)
+# for key in {'one':1, 'two':2}:
+#     print("dict",key)
+# for char in "123":
+#     print("char",char)
+
 
 
 
