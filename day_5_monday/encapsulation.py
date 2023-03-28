@@ -18,10 +18,19 @@ class Computer:
 c = Computer()
 c.sell()
 
-# change the price
+# change the price here will not change the price instead we have to use the setter function 
 c.__maxprice = 1000
 c.sell()
 
 # using setter function
 c.setMaxPrice(1000)
 c.sell()
+
+
+
+
+
+
+
+
+
