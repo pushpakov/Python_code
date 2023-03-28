@@ -1,9 +1,9 @@
 # Abstraction is the process of hiding the implementation details of a class and exposing only the relevant information to the user
 
-import abc
+import abc 
 
 class Vehicle(abc.ABC):
-    @abc.abstractmethod
+    @abc.abstractmethod  
     def drive(self):
         pass
 
@@ -12,7 +12,7 @@ class Car(Vehicle):
         print("Driving a car...")
 
 class Truck(Vehicle):
-    def drive(self):
+    def drive(self): 
         print("Driving a truck...")
 
 class Bike(Vehicle):
