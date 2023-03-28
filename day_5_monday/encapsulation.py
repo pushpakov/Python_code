@@ -13,7 +13,7 @@ class Computer:
         print(f"Selling Price: {self.__maxprice}")
 
     def setMaxPrice(self, price):
-        self.__maxprice = price
+        self.__maxprice = price 
 
 c = Computer()
 c.sell()
