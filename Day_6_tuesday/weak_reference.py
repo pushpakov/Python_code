@@ -6,6 +6,9 @@ You would use weak references for expensive objects, or to avoid circle referenc
 """
 
 
+res = merge_strings("abc","cda")
+print(res)
+
 import weakref
 import gc
 
