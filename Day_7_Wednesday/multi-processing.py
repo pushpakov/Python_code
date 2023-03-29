@@ -10,7 +10,7 @@ def generate_numbers_list(numbers_queue):
     for x in range(1, 21):
         numbers_queue.put(x)
         print("numbers_queue",numbers_queue.get())
-        time.sleep(5)
+        time.sleep(0.5)
 
 def add_random(numbers_queue, randint_queue):
     while True:
@@ -18,7 +18,7 @@ def add_random(numbers_queue, randint_queue):
         if not numbers_queue.empty():
             x = numbers_queue.get()
             randint_queue.put(x + num)
-            print("randint_queue",randint_queue.get())
+            print("randint_queue",randint_queue.get())   
         else:
             break
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         pool.join()
 
         # Converting list to a set to remove duplicates
-        final_set = set(shared_list)
+        final_set = (shared_list)
         print(final_set)
 
 
