@@ -1,0 +1,49 @@
+## query to fetch all the details of employees working in the 'Sales' department from the 'EMPLOYEE' table. The table 'EMPLOYEE' has been created with three columns, namely 'empId', 'name', and 'dept', where 'empId' is the primary key, and 'name' and 'dept' cannot be null. The query inserts three rows of data into the 'EMPLOYEE' table, representing employees Clark, Dave, and Ava, with their respective department information. The SELECT statement fetches all the rows from the 'EMPLOYEE' table where the department is 'Sales'.
+
+-- creating employee table 
+
+CREATE TABLE EMPLOYEE (
+  empId INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  dept TEXT NOT NULL
+);
+
+-- insert
+INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'Sales');
+INSERT INTO EMPLOYEE VALUES (0002, 'Dave', 'Accounting');
+INSERT INTO EMPLOYEE VALUES (0003, 'Ava', 'Sales');
+
+-- fetch 
+SELECT * FROM EMPLOYEE WHERE dept = 'Sales';
+
+
+
+### Let's say we have a database for an online bookstore that has a table called books with the following columns: id, title, author, genre, price, and published_date. 
+We can create this table using the following SQL code:
+
+
+CREATE TABLE books (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  genre ENUM('Fiction', 'Non-fiction', 'Biography') NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  published_date DATE NOT NULL,
+  UNIQUE (title, author)
+);
+
+
+## adding new coloumn for language with defalt language as English 
+
+
+ALTER TABLE books
+ADD language VARCHAR(50) NOT NULL DEFAULT 'English';
+
+##  rename the genre column to category
+
+
+ALTER TABLE books
+RENAME COLUMN genre TO category;
+
+
+

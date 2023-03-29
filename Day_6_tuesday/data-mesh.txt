@@ -1,0 +1,45 @@
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DATA MESH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Data Mesh is a new approach to managing data in large, complex organizations that acknowledges the realities of today's data landscape. Rather than trying to centralize all data into one system, Data Mesh recognizes that data is often spread across multiple sources, both inside and outside of an organization's boundaries.
+
+Data Mesh also acknowledges that there is a diverse range of use cases for data, from machine learning model development to reporting and analytics. This means that data needs to be accessible and usable by a wide range of people with different skill sets and backgrounds.
+
+Finally, Data Mesh recognizes that organizational environments are complex and volatile, and that solutions need to work with this reality rather than against it. By embracing these realities and designing solutions that work with them, Data Mesh aims to create a more flexible, scalable, and effective approach to managing data in modern organizations.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<LIMITATIONS OF DATA MESH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+While Data Mesh is a promising approach to managing data in large, complex organizations, it also has some limitations that should be considered. Here are a few:
+
+Complexity: Implementing a Data Mesh approach can be complex, as it involves creating a new organizational structure and governance model. This can require a significant amount of time, resources, and effort.
+
+Talent and expertise: Data Mesh requires a diverse set of skills and expertise, including data engineering, data science, governance, and domain knowledge. Finding and retaining talent with these skills can be a challenge for some organizations.
+
+Integration challenges: Data Mesh involves integrating data from multiple sources and platforms, which can be challenging. Data silos and legacy systems can make this integration difficult and require additional resources to overcome.
+
+Security and privacy: Managing data from multiple sources can increase security and privacy risks. It is essential to ensure that appropriate security and privacy measures are in place to protect sensitive data.
+
+Cultural change: Data Mesh requires a cultural shift within an organization. It requires teams to work collaboratively, share knowledge and expertise, and embrace new ways of working. This cultural change can be difficult to achieve in some organizations.
+
+Overall, while Data Mesh offers many benefits, it is essential to carefully consider its limitations and potential challenges before implementing it within an organization.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< WHO GET BENEFITTED FROM DATA MESH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Data consumers: Data Mesh can make it easier for data consumers, such as business analysts, data scientists, and developers, to access and use data. By providing a more decentralized approach to data management, data consumers can find the data they need more quickly and easily, and with less reliance on central IT teams.
+
+Data producers: Data Mesh can also benefit data producers, such as application developers, by providing a more standardized approach to data production. This can help ensure that data is consistent, high-quality, and reliable.
+
+IT teams: Data Mesh can help IT teams by reducing the burden of managing data silos and integrating data from multiple sources. By providing a more decentralized approach to data management, IT teams can focus on creating tools and platforms that support data consumption and production, rather than managing data infrastructure.
+
+Data governance teams: Data Mesh can help data governance teams by providing a more standardized approach to data management. By defining clear data ownership, accountability, and quality standards, data governance teams can ensure that data is used and managed in a responsible and compliant manner.
+
+Business stakeholders: Data Mesh can benefit business stakeholders by providing access to high-quality data that can be used to drive business decisions and improve performance. By providing a more standardized approach to data management, business stakeholders can be more confident in the accuracy and reliability of the data they use.
+
+In summary, Data Mesh can benefit many stakeholders within an organization by providing a more decentralized, standardized, and flexible approach to data management. By making it easier to access and use data, organizations can become more data-driven and responsive to changing business needs.
+
+
+#### WHAT IS DATA MESH 
+Data Mesh is a sociotechnical approach to share, access and manage analytical data in
+complex and large-scale environments - within or across organizations.
+
+
+
