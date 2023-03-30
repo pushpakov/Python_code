@@ -26,7 +26,7 @@ CREATE TABLE books (
   id INT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
-  genre ENUM('Fiction', 'Non-fiction', 'Biography') NOT NULL,
+  genre ENUM('Fiction', 'Non-fiction','sci-fi', 'Biography') NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   published_date DATE NOT NULL,
   UNIQUE (title, author)
@@ -39,11 +39,118 @@ CREATE TABLE books (
 ALTER TABLE books
 ADD language VARCHAR(50) NOT NULL DEFAULT 'English';
 
-##  rename the genre column to category
+
+-- insert
+INSERT INTO books (title, author, genre, price, published_date) 
+VALUES ('albanero', 'Manish Sharma', 'sci-fi', 25.99, '1925-04-10');
+
+
+-- rename the genre column to category
+ALTER TABLE books
+RENAME COLUMN genre TO category;
+
+
+-- insert
+INSERT INTO books (title, author, category, price, published_date) 
+VALUES ('albanero', 'Manish Sharma', 'sci-fi', 25.99, '1925-04-10');
+
+CREATE TABLE books (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  genre ENUM('Fiction', 'Non-fiction','sci-fi', 'Biography') NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  published_date DATE NOT NULL,
+  UNIQUE (title, author)
+);
+
+
+ALTER TABLE books
+ADD language VARCHAR(50) NOT NULL DEFAULT 'English';
+
+-- ##  rename the genre column to category
 
 
 ALTER TABLE books
 RENAME COLUMN genre TO category;
+-- insert
+INSERT INTO books (title, author, category, price, published_date,language) 
+VALUES ('albanero', 'Manish Sharma', 'sci-fi', 25.99, '1925-04-10', 'Russian'),
+('To Kill a Mockingbird', 'Harper Lee', 'Fiction', 20.99, '1960-07-11', 'English'),
+('The Catcher in the Rye', 'J.D. Salinger', 'Fiction', 18.50, '1951-07-16', 'English'),
+('Sapiens: A Brief History of Humankind', 'Yuval Noah Harari', 'Non-fiction', 16.99, '2011-05-15', 'English'),
+('The 7 Habits of Highly Effective People', 'Stephen Covey', 'Non-fiction', 14.50, '1989-08-15', 'English'),
+('Leonardo da Vinci', 'Walter Isaacson', 'Biography', 22.99, '2017-10-17', 'English');
+
+
+-- fetch 
+SELECT * FROM books;
+
+-- fetch 
+SELECT * FROM books;
+
+-- Select the title, author, and price columns for all books where the category is Fiction
+SELECT title, author, price FROM books WHERE category = 'Fiction';
+
+-- Select all columns for the first 3 books sorted by price in descending order
+SELECT * FROM books ORDER BY price DESC LIMIT 3;
+
+-- Select book with the in title
+SELECT * FROM books WHERE title LIKE '%the%';
+
+-- Select all the distinct in the table 
+SELECT DISTINCT category FROM books;
+
+-- Group books by category and show the count of books in each category
+SELECT category, COUNT(*) as book_count FROM books GROUP BY category;
+
+-- Select categories with more than 3 books
+SELECT category, COUNT(*) as book_count FROM books GROUP BY category HAVING book_count > 1;
+
+-- Select all books where the price is higher than the average price
+SELECT * FROM books WHERE price > (SELECT AVG(price) FROM books);
+
+-- Select all books where the price is higher than any book in the 'Biography' category:
+SELECT * FROM books WHERE price > ANY (SELECT price FROM books WHERE category = 'Biograpy')
+
+
+
+
+
+
+-- assume the table below for writing the sql query 
+
+Customers
+customer_id	first_name	last_name	age	country
+1	John	Doe	31	USA
+2	Robert	Luna	22	USA
+3	David	Robinson	22	UK
+4	John	Reinhardt	25	UK
+5	Betty	Doe	28	UAE
+
+Orders
+order_id	item	amount	customer_id
+1	Keyboard	400	4
+2	Mouse	300	4
+3	Monitor	12000	3
+4	Keyboard	400	1
+5	Mousepad	250	2
+
+Shippings
+shipping_id	status	customer
+1	Pending	2
+2	Pending	4
+3	Delivered	3
+4	Pending	5
+5	Delivered	1
+
+-- perform inner join 
+SELECT Customers.first_name, Orders.item
+FROM Customers INNER JOIN Orders
+ON Customers.customer_id = Orders.customer_id
+
+
+
 
 
 

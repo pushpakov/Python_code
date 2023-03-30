@@ -32,7 +32,7 @@ def numbers_list(randint_queue, shared_list):
 
 if __name__ == '__main__':
     with Manager() as manager:
-        shared_list = manager.list()
+        shared_list = []
         numbers_queue = manager.Queue()
         randint_queue = manager.Queue()
         pool = Pool(processes=3)
