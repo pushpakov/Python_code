@@ -1,3 +1,5 @@
+# to print table for the number provied by the user in my url 
+
 from flask import Flask, render_template
 
 class InvalidInputError(Exception):
