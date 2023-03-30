@@ -149,6 +149,10 @@ SELECT Customers.first_name, Orders.item
 FROM Customers INNER JOIN Orders
 ON Customers.customer_id = Orders.customer_id
 
+-- emailId 
+password - Welcome12$  
+email - pushpak.kumar@albanero.io 
+
 
 
 

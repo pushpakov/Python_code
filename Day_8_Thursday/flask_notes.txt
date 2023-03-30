@@ -9,7 +9,10 @@ One of the key features of Flask is its flexibility and extensibility. It allows
 Flask is often used for building small to medium-sized web applications, such as blogs, forums, content management systems, and RESTful APIs. It is popular among Python developers because of its simplicity, ease of use, and flexibility.
 
 
+## email error to admin 
+to be proactive about discovering ans fixing bugs, we can configure a logging.handlers.SMTPHandler to send an email when errors and higher are logged
 
+##
 
 
 
