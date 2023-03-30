@@ -12,7 +12,22 @@ Flask is often used for building small to medium-sized web applications, such as
 ## email error to admin 
 to be proactive about discovering ans fixing bugs, we can configure a logging.handlers.SMTPHandler to send an email when errors and higher are logged
 
-##
+## Jinja2 is a web template engine which combines a template with a certain data source to render the dynamic web pages.
+
+## app.run(host, port, debug, options)  
+
+##The add_url_rule() function
+        There is one more approach to perform routing for the flask web application that can be done by using the add_url() function of the Flask class. The syntax to use this function is given below.
+        add_url_rule(<url rule>, <endpoint>, <view function>)  
+        This function is mainly used in the case if the view function is not given and we need to connect a view function to an endpoint externally by using this function.
 
 
+##Benefits of the Dynamic URL Building
+        It avoids hard coding of the URLs.
+        We can change the URLs dynamically instead of remembering the manually changed hard-coded URLs.
+        URL building handles the escaping of special characters and Unicode data transparently.
+        The generated paths are always absolute, avoiding unexpected behavior of relative paths in browsers.
+        If your application is placed outside the URL root, for example, in /myapplication instead of /, url_for() properly handles that for you.
 
+
+## 
