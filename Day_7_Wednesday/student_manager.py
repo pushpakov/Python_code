@@ -1,11 +1,11 @@
 class Student:
-    def __init__(self, division: str, name: str, subject: str, roll: int):
+    def __init__(self, division: str, name: str, subject: str, roll: int) -> None:
         self.division = division
         self.name = name
         self.subject = subject
         self.roll = roll
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Student(name='{self.name}', roll='{self.roll}', division='{self.division}', subject='{self.subject}')"
 
 students = []

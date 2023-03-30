@@ -1,0 +1,15 @@
+                                                            FLASK
+
+Flask is a lightweight web application framework written in Python. It is designed to be simple and easy to use, yet powerful enough to build complex web applications. Flask is considered a micro-framework, meaning that it is focused on providing the minimum set of tools and features needed to build a web application.
+
+Flask is based on the WSGI (Web Server Gateway Interface) standard, which allows it to work with a wide range of web servers and platforms. It provides a simple and intuitive API for routing HTTP requests to view functions, rendering templates, managing sessions and cookies, handling errors, and more.
+
+One of the key features of Flask is its flexibility and extensibility. It allows developers to add and remove components as needed, and to integrate with other Python libraries and tools. Flask also provides built-in support for testing, debugging, and profiling, which makes it easy to develop and deploy web applications.
+
+Flask is often used for building small to medium-sized web applications, such as blogs, forums, content management systems, and RESTful APIs. It is popular among Python developers because of its simplicity, ease of use, and flexibility.
+
+
+
+
+
+
