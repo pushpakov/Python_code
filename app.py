@@ -144,7 +144,7 @@ def add_follower():
 @app.route('/followers/<user_id>')
 def get_followers(user_id):
     user = collection.find_one({'_id': ObjectId(user_id)})
-    print(user)
+    # print(user) 
     if user:
         followers = user.get('followers', [])
         followers_data = []
