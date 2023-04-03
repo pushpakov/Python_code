@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for 
 from pymongo import MongoClient 
 from bson import json_util
 from bson.json_util import dumps
@@ -7,6 +7,8 @@ from flask import jsonify,request
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask.json import JSONEncoder
 from bson import ObjectId 
+import math 
+
  
 app = Flask(__name__)
 app.secret_key = "secretkey"
@@ -15,15 +17,17 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['InstaLike']
 collection = db['User']
 
-
+# class to customize the json object serilization 
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, ObjectId):
-            return str(obj)
+            return str(obj) 
         return super().default(obj)
-
+# setting json encoder default as CustomJSONEncoder
 app.json_encoder = CustomJSONEncoder
 
+
+# add user 
 @app.route('/add', methods=['POST'])
 def add_user():
     _json = request.json
@@ -47,7 +51,7 @@ def add_user():
         return not_found()
 
 
-
+# method the hande error of not found 
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
@@ -61,18 +65,39 @@ def not_found(error=None):
     return resp
 
 
+
+# find all  the user and adding pagination 
 @app.route('/users')
 def users():
-    users = collection.find()
-    resp = dumps(users)
-    return resp
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 10))
+
+    offset = (page - 1) * limit
+
+    users = collection.find().skip(offset).limit(limit)
+
+    data = list(users)
+
+    total = collection.count_documents({})
+
+    pages = math.ceil(total / limit)
+
+    response = {
+        'data': data,
+        'page': page,
+        'limit': limit,
+        'total': total,
+        'pages': pages
+    }
+    return jsonify(response)
 
 
 @app.route('/users/<id>')
 def user(id):
     user = collection.find_one({'_id':ObjectId(id)})
-    resp = dumps(user)
-    return resp
+    if user is None:
+        return not_found() 
+    return user 
 
 
 @app.route('/delete/<id>',methods=['DELETE'])
@@ -82,8 +107,8 @@ def delete_user(id):
     resp.status_code = 200
     return resp
 
-
-
+ 
+# update a particular user using user id 
 @app.route('/update/<id>', methods=['PUT'])
 def update_user(id):
     _id = id
@@ -111,8 +136,9 @@ def update_user(id):
     else:
         return not_found()
 
-import json
 
+
+# follow a particular user 
 @app.route('/follow', methods=['POST'])
 def add_follower():
     _json = request.json
@@ -141,21 +167,39 @@ def add_follower():
     
 
 
+# find total followers of a particular user and add pagination
 @app.route('/followers/<user_id>')
 def get_followers(user_id):
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+    
     user = collection.find_one({'_id': ObjectId(user_id)})
-    # print(user) 
     if user:
         followers = user.get('followers', [])
+        total_followers = len(followers)
+        
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+        
         followers_data = []
-        for follower in followers:
-            # Exclude the password field from the serialized document
+        for follower in followers[start_index:end_index]:
             follower.pop('password', None)
             followers_data.append(follower)
-        return jsonify(followers_data)
+
+        pagination = {
+            'total_followers': total_followers,
+            'per_page': per_page,
+            'current_page': page,
+            'last_page': math.ceil(total_followers / per_page),
+            'prev_page': url_for('get_followers', user_id=user_id, page=page-1, per_page=per_page) if page > 1 else None,
+            'next_page': url_for('get_followers', user_id=user_id, page=page+1, per_page=per_page) if end_index < total_followers else None,
+            'first_page': url_for('get_followers', user_id=user_id, page=1, per_page=per_page),
+            'last_page': url_for('get_followers', user_id=user_id, page=math.ceil(total_followers / per_page), per_page=per_page)
+        }
+        
+        return jsonify({'followers': followers_data, 'pagination': pagination})
     else:
         return not_found()
-
 
 
 if __name__ == "__main__":
