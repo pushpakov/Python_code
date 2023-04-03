@@ -28,37 +28,6 @@ class CustomJSONEncoder(JSONEncoder):
 # setting json encoder default as CustomJSONEncoder
 app.json_encoder = CustomJSONEncoder
 
-@dataclass
-class Person:
-    name: str
-    email: str
-    password: str
-    followers: List[any] 
-
-# add user 
-@app.route('/add', methods=['POST'])
-def add_user():
-    _json = request.json
-    _name = _json['name']
-    _email = _json['email']
-    _password = _json['password']
-
-    if _name and _email and _password and request.method == 'POST':
-        _hashed_password = generate_password_hash(_password)
-
-        user_data = Person(name =_name, email = _email, password =  _hashed_password, followers = [])
-        # user_data = {'name': _name, 'email': _email, 'password': _hashed_password, 'followers': []}
-
-        result = collection.insert_one(user_data.__dict__) 
-
-        resp = jsonify('User Added successfully')
-        resp.status_code = 200
-
-        return resp 
-
-    else:
-        return not_found()
-
 
 # method the hande error of not found 
 @app.errorhandler(404)
@@ -75,103 +44,189 @@ def not_found(error=None):
 
 
 
+# method to handle server error 
+@app.errorhandler(500)
+def internal_server_error(error=None):
+    message = {
+        'status': 500,
+        'message': 'Internal Server Error: Please contact the service provider' 
+    }
+    resp = jsonify(message)
+    resp.status_code = 500
+    return resp 
+
+
+# data class 
+@dataclass
+class Person:
+    name: str
+    email: str
+    password: str
+    followers: List[any] 
+
+# add user 
+@app.route('/add', methods=['POST'])
+def add_user():
+    try:
+        _json = request.json
+        _name = _json['name']
+        _email = _json['email']
+        _password = _json['password']
+
+        if _name and _email and _password and request.method == 'POST':
+            _hashed_password = generate_password_hash(_password)
+
+            user_data = Person(name =_name, email = _email, password =  _hashed_password, followers = [])
+            result = collection.insert_one(user_data.__dict__) 
+
+            resp = jsonify('User Added successfully')
+            resp.status_code = 200
+
+            return resp 
+        else:
+            return not_found()
+
+    except Exception as e:
+        print(e)
+        return internal_server_error()
+
+
+
 # find all  the user and adding pagination 
 @app.route('/users')
 def users():
-    page = int(request.args.get('page', 1))
-    limit = int(request.args.get('limit', 10))
+    try:
+        page = int(request.args.get('page', 1))
+        limit = int(request.args.get('limit', 10))
 
-    offset = (page - 1) * limit
+        offset = (page - 1) * limit
 
-    users = collection.find().skip(offset).limit(limit)
+        users = collection.find().skip(offset).limit(limit)
+        # print(users) 
+        total = collection.count_documents({})
+        if total == 0:
+            return not_found() 
+        data = []
+        for user in users:
+            person = Person(user['name'], user['email'], user['password'], user['followers'])
+            person.id = str(user['_id'])
+            data.append(person)
 
-    data = list(users)
+        
 
-    total = collection.count_documents({})
+        pages = math.ceil(total / limit) 
+         
+        response = {
+            'data': [person.__dict__ for person in data],
+            'page': page,
+            'limit': limit,
+            'total': total,
+            'pages': pages
+        }
+        return jsonify(response)
 
-    pages = math.ceil(total / limit)
-
-    response = {
-        'data': data,
-        'page': page,
-        'limit': limit,
-        'total': total,
-        'pages': pages
-    }
-    return jsonify(response)
+    except Exception as e:
+        print(e)
+        return internal_server_error() 
 
 
+
+
+# find user using user id 
 @app.route('/users/<id>')
 def user(id):
-    user = collection.find_one({'_id':ObjectId(id)})
-    if user is None:
-        return not_found() 
-    return user 
+    try:
+        user_data = collection.find_one({'_id': ObjectId(id)})
+        if user_data is None:
+            return not_found()
+        
+        user = Person(name=user_data['name'], email=user_data['email'], password=user_data['password'], followers=user_data['followers'])
+        user._id = str(user_data['_id']) 
+
+        return jsonify(user.__dict__) 
+    
+    except Exception as e:
+        print(e)
+        return internal_server_error()
 
 
-@app.route('/delete/<id>',methods=['DELETE'])
+
+# delete user using user id 
+@app.route('/delete/<id>', methods=['DELETE'])
 def delete_user(id):
-    collection.delete_one({'_id':ObjectId(id)})
-    resp = jsonify("User deleted successfully")
-    resp.status_code = 200
-    return resp
+    try:
+        result = collection.delete_one({'_id': ObjectId(id)})
+        if result.deleted_count == 0:
+            return not_found() 
+        else:
+            resp = jsonify("User deleted successfully")
+            resp.status_code = 200
+            return resp
+
+    except Exception as e:
+        print(e)
+        return internal_server_error() 
 
  
 # update a particular user using user id 
-@app.route('/update/<id>', methods=['PUT'])
+@app.route('/update/<id>', methods=['PUT']) 
 def update_user(id):
-    _id = id
-    _json = request.json
+    try:
+        _id = id
+        _json = request.json 
+        
+        update_data = {}
     
-    update_data = {}
-
-    if 'name' in _json:
-        update_data['name'] = _json['name']
-    
-    if 'email' in _json:
-        update_data['email'] = _json['email']
-    
-    if 'password' in _json:
-        update_data['password'] = generate_password_hash(_json['password'])
+        if 'name' in _json:
+            update_data['name'] = _json['name']
+        
+        if 'email' in _json:
+            update_data['email'] = _json['email']
+        
+        if 'password' in _json:
+            update_data['password'] = generate_password_hash(_json['password'])
  
-    if _id and update_data and request.method == "PUT":
-        collection.update_one({'_id':ObjectId(_id)}, {'$set': update_data})
+        if _id and update_data and request.method == "PUT":
+            collection.update_one({'_id':ObjectId(_id)}, {'$set': update_data})
  
-        resp = jsonify("User updated successfully")
-        resp.status_code = 200
+            return jsonify("User updated successfully")  
  
-        return resp
- 
-    else:
-        return not_found()
+        else:
+            return not_found() 
+    except Exception as e:
+        print(e) 
+        return internal_server_error() 
 
 
 
 # follow a particular user 
 @app.route('/follow', methods=['POST'])
 def add_follower():
-    _json = request.json
-    _user_id = _json['user_id']
-    _follower_id = _json['follower_id']
+    try:
+        _json = request.json
+        _user_id = _json['user_id']
+        _follower_id = _json['follower_id']
 
-    if _user_id and _follower_id and request.method == 'POST':
-        user_data = collection.find_one({'_id': ObjectId(_user_id)})
-        follower_data = collection.find_one({'_id': ObjectId(_follower_id)}) 
-        print(type(follower_data)) 
-        if user_data:
-            user_data['followers'].append(follower_data)
+        if _user_id and _follower_id and request.method == 'POST':
+            user_data = collection.find_one({'_id': ObjectId(_user_id)})
+            follower_data = collection.find_one({'_id': ObjectId(_follower_id)}) 
+            # print(type(follower_data)) 
+            if user_data:
+                user_data['followers'].append(follower_data)
 
-            collection.update_one({'_id': ObjectId(_user_id)}, {'$set': {'followers': user_data['followers']}})
+                collection.update_one({'_id': ObjectId(_user_id)}, {'$set': {'followers': user_data['followers']}})
 
-            resp = jsonify('Follower Added successfully')
-            resp.status_code = 200
+                resp = jsonify('Follower Added successfully')
+                resp.status_code = 200
 
-            return resp
+                return resp
+            else:
+                return not_found() 
+
         else:
-            return not_found() 
-
-    else:
-        return not_found()
+            return not_found()
+    except Exception as e:
+        return internal_server_error() 
 
     
 
@@ -179,36 +234,39 @@ def add_follower():
 # find total followers of a particular user and add pagination
 @app.route('/followers/<user_id>')
 def get_followers(user_id):
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 10))
-    
-    user = collection.find_one({'_id': ObjectId(user_id)})
-    if user:
-        followers = user.get('followers', [])
-        total_followers = len(followers)
+    try: 
+        page = int(request.args.get('page', 1))
+        per_page = int(request.args.get('per_page', 10))
         
-        start_index = (page - 1) * per_page
-        end_index = start_index + per_page
-        
-        followers_data = []
-        for follower in followers[start_index:end_index]:
-            follower.pop('password', None)
-            followers_data.append(follower)
+        user = collection.find_one({'_id': ObjectId(user_id)})
+        if user:
+            followers = user.get('followers', [])
+            total_followers = len(followers)
+            
+            start_index = (page - 1) * per_page
+            end_index = start_index + per_page
+            
+            followers_data = []
+            for follower in followers[start_index:end_index]:
+                follower.pop('password', None)
+                followers_data.append(follower)
 
-        pagination = {
-            'total_followers': total_followers,
-            'per_page': per_page,
-            'current_page': page,
-            'last_page': math.ceil(total_followers / per_page),
-            'prev_page': url_for('get_followers', user_id=user_id, page=page-1, per_page=per_page) if page > 1 else None,
-            'next_page': url_for('get_followers', user_id=user_id, page=page+1, per_page=per_page) if end_index < total_followers else None,
-            'first_page': url_for('get_followers', user_id=user_id, page=1, per_page=per_page),
-            'last_page': url_for('get_followers', user_id=user_id, page=math.ceil(total_followers / per_page), per_page=per_page)
-        }
-        
-        return jsonify({'followers': followers_data, 'pagination': pagination})
-    else:
-        return not_found()
+            pagination = {
+                'total_followers': total_followers,
+                'per_page': per_page,
+                'current_page': page,
+                'last_page': math.ceil(total_followers / per_page),
+                'prev_page': url_for('get_followers', user_id=user_id, page=page-1, per_page=per_page) if page > 1 else None,
+                'next_page': url_for('get_followers', user_id=user_id, page=page+1, per_page=per_page) if end_index < total_followers else None,
+                'first_page': url_for('get_followers', user_id=user_id, page=1, per_page=per_page),
+                'last_page': url_for('get_followers', user_id=user_id, page=math.ceil(total_followers / per_page), per_page=per_page)
+            }
+            
+            return jsonify({'followers': followers_data, 'pagination': pagination})
+        else:
+            return not_found()
+    except Exception as e:
+        return internal_server_error()
 
 
 if __name__ == "__main__":
