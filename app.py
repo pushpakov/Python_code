@@ -8,6 +8,8 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask.json import JSONEncoder
 from bson import ObjectId 
 import math 
+from dataclasses import dataclass 
+from typing import List 
 
  
 app = Flask(__name__)
@@ -26,6 +28,12 @@ class CustomJSONEncoder(JSONEncoder):
 # setting json encoder default as CustomJSONEncoder
 app.json_encoder = CustomJSONEncoder
 
+@dataclass
+class Person:
+    name: str
+    email: str
+    password: str
+    followers: List[any] 
 
 # add user 
 @app.route('/add', methods=['POST'])
@@ -38,9 +46,10 @@ def add_user():
     if _name and _email and _password and request.method == 'POST':
         _hashed_password = generate_password_hash(_password)
 
-        user_data = {'name': _name, 'email': _email, 'password': _hashed_password, 'followers': []}
+        user_data = Person(name =_name, email = _email, password =  _hashed_password, followers = [])
+        # user_data = {'name': _name, 'email': _email, 'password': _hashed_password, 'followers': []}
 
-        result = collection.insert_one(user_data)
+        result = collection.insert_one(user_data.__dict__) 
 
         resp = jsonify('User Added successfully')
         resp.status_code = 200
