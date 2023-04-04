@@ -4,7 +4,6 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
 from typing import List
 from bson import ObjectId 
-# from bson.json_util import dumps, loads
 from models.model import Person 
 from logs.logger import setup_logger 
 from validations.validation import PersonSchema 
@@ -107,7 +106,7 @@ def users():
         return jsonify(response)
 
     except Exception as e:
-        print(e)
+        logger.error(str(e))
         return internal_server_error() 
 
 
@@ -127,7 +126,7 @@ def user(id):
         return jsonify(user.__dict__) 
     
     except Exception as e:
-        print(e)
+        logger.error(str(e))
         return internal_server_error()
 
 
@@ -145,7 +144,7 @@ def delete_user(id):
             return resp
 
     except Exception as e:
-        print(e)
+        logger.error(str(e))
         return internal_server_error() 
 
  
@@ -175,7 +174,7 @@ def update_user(id):
         else:
             return not_found() 
     except Exception as e:
-        print(e) 
+        logger.error(str(e)) 
         return internal_server_error() 
 
 
@@ -208,7 +207,7 @@ def add_follower():
         else:
             return not_found()
     except Exception as e:
-        # print(e) 
+        logger.error(str(e)) 
         return internal_server_error() 
 
     
@@ -249,6 +248,7 @@ def get_followers(user_id):
         else:
             return not_found()
     except Exception as e:
+        logger.error(str(e))
         return internal_server_error()
 
 
