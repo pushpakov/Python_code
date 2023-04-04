@@ -1,93 +1,74 @@
-from flask import Flask, url_for 
-from pymongo import MongoClient 
-from bson import json_util
-from bson.json_util import dumps
-from bson.objectid import ObjectId
-from flask import jsonify,request
-from werkzeug.security import generate_password_hash,check_password_hash
-from flask.json import JSONEncoder
-from bson import ObjectId 
+from flask import Flask, jsonify, request, url_for
 import math 
-from dataclasses import dataclass 
-from typing import List 
+from pymongo import MongoClient
+from werkzeug.security import generate_password_hash
+from typing import List
+from bson import ObjectId 
+# from bson.json_util import dumps, loads
+from models.model import Person 
+from logs.logger import setup_logger 
+from validations.validation import PersonSchema 
 
- 
 app = Flask(__name__)
 app.secret_key = "secretkey"
- 
+
 client = MongoClient('mongodb://localhost:27017/')
 db = client['InstaLike']
 collection = db['User']
+ 
+logger = setup_logger()
 
-# class to customize the json object serilization 
-class CustomJSONEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, ObjectId):
-            return str(obj) 
-        return super().default(obj)
-# setting json encoder default as CustomJSONEncoder
-app.json_encoder = CustomJSONEncoder
+person_schema = PersonSchema()
 
-
-# method the hande error of not found 
+# method to handle not found error
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
-        'status':404,
-        'message':'Not Found' + request.url
+        'status': 404,
+        'message': 'Not Found: ' + request.url
     }
     resp = jsonify(message)
- 
     resp.status_code = 404
- 
     return resp
 
-
-
-# method to handle server error 
+# method to handle server error
 @app.errorhandler(500)
 def internal_server_error(error=None):
     message = {
         'status': 500,
-        'message': 'Internal Server Error: Please contact the service provider' 
+        'message': 'Internal Server Error: Please contact the service provider'
     }
     resp = jsonify(message)
     resp.status_code = 500
-    return resp 
+    return resp
 
-
-# data class 
-@dataclass
-class Person:
-    name: str
-    email: str
-    password: str
-    followers: List[any] 
-
-# add user 
+# add user
 @app.route('/add', methods=['POST'])
 def add_user():
     try:
-        _json = request.json
-        _name = _json['name']
-        _email = _json['email']
-        _password = _json['password']
-
-        if _name and _email and _password and request.method == 'POST':
-            _hashed_password = generate_password_hash(_password)
-
-            user_data = Person(name =_name, email = _email, password =  _hashed_password, followers = [])
-            result = collection.insert_one(user_data.__dict__) 
-
-            resp = jsonify('User Added successfully')
-            resp.status_code = 200
-
-            return resp 
-        else:
+        json_data = request.get_json()
+        if not json_data:
             return not_found()
 
+        person_data = person_schema.load(json_data)
+
+        if not person_data:
+            return not_found()
+
+        hashed_password = generate_password_hash(person_data.password)
+
+        user_data = Person(name=person_data.name, email=person_data.email, password=hashed_password)
+
+        result = collection.insert_one(user_data.__dict__)
+
+        resp = jsonify('User Added successfully')
+        resp.status_code = 200
+
+        return resp
+
     except Exception as e:
-        print(e)
+        # print(e) 
+        logger.error(str(e)) 
         return internal_server_error()
 
 
@@ -210,7 +191,8 @@ def add_follower():
         if _user_id and _follower_id and request.method == 'POST':
             user_data = collection.find_one({'_id': ObjectId(_user_id)})
             follower_data = collection.find_one({'_id': ObjectId(_follower_id)}) 
-            # print(type(follower_data)) 
+            print(type(follower_data)) 
+            # print(user_data) 
             if user_data:
                 user_data['followers'].append(follower_data)
 
@@ -221,11 +203,12 @@ def add_follower():
 
                 return resp
             else:
-                return not_found() 
+                return not_found()  
 
         else:
             return not_found()
     except Exception as e:
+        # print(e) 
         return internal_server_error() 
 
     

@@ -19,3 +19,5 @@ InstaLike is a simple Flask app that simulates a social media platform where use
 - `/follow` - Add a follower to a user (POST)
 - `/followers/<user_id>` - Get all followers for a user (GET)
 
+<!-- implement logging, model package for data class, db package for database operations and use environment variable for configuring the credentials   --> 
+
