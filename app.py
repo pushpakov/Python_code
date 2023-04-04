@@ -7,9 +7,17 @@ from bson import ObjectId
 from models.model import Person 
 from logs.logger import setup_logger 
 from validations.validation import PersonSchema 
+from flask.json import JSONEncoder
+from bson import json_util 
+
+
+# define a custom encoder point to the json_util provided by pymongo (or its dependency bson)
+class CustomJSONEncoder(JSONEncoder):
+    def default(self, obj): return json_util.default(obj) 
 
 app = Flask(__name__)
 app.secret_key = "secretkey"
+app.json_encoder = CustomJSONEncoder 
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['InstaLike']
@@ -24,7 +32,7 @@ person_schema = PersonSchema()
 def not_found(error=None):
     message = {
         'status': 404,
-        'message': 'Not Found: ' + request.url
+        'message': 'Not Found: ' + request.url 
     }
     resp = jsonify(message)
     resp.status_code = 404
@@ -216,22 +224,25 @@ def add_follower():
 # find total followers of a particular user and add pagination
 @app.route('/followers/<user_id>')
 def get_followers(user_id):
-    try: 
+    try:
         page = int(request.args.get('page', 1))
         per_page = int(request.args.get('per_page', 10))
-        
-        user = collection.find_one({'_id': ObjectId(user_id)})
-        if user:
-            followers = user.get('followers', [])
-            total_followers = len(followers)
-            
-            start_index = (page - 1) * per_page
-            end_index = start_index + per_page
-            
-            followers_data = []
-            for follower in followers[start_index:end_index]:
-                follower.pop('password', None)
-                followers_data.append(follower)
+
+        pipeline = [
+            {'$match': {'_id': ObjectId(user_id)}},
+            {'$project': {'followers': 1}},  
+            {'$unwind': '$followers'},
+            {'$skip': (page-1)*per_page},
+            {'$limit': per_page},
+            {'$group': {'_id': None, 'followers': {'$push': '$followers'}, 'count': {'$sum': 1}}},
+            {'$project': {'_id': 0, 'followers': 1, 'total_followers': '$count'}}
+        ]
+
+        result = list(collection.aggregate(pipeline))
+
+        if len(result) > 0:
+            followers_data = result[0]['followers']
+            total_followers = result[0]['total_followers']
 
             pagination = {
                 'total_followers': total_followers,
@@ -239,17 +250,18 @@ def get_followers(user_id):
                 'current_page': page,
                 'last_page': math.ceil(total_followers / per_page),
                 'prev_page': url_for('get_followers', user_id=user_id, page=page-1, per_page=per_page) if page > 1 else None,
-                'next_page': url_for('get_followers', user_id=user_id, page=page+1, per_page=per_page) if end_index < total_followers else None,
+                'next_page': url_for('get_followers', user_id=user_id, page=page+1, per_page=per_page) if (page * per_page) < total_followers else None,
                 'first_page': url_for('get_followers', user_id=user_id, page=1, per_page=per_page),
                 'last_page': url_for('get_followers', user_id=user_id, page=math.ceil(total_followers / per_page), per_page=per_page)
             }
-            
+
             return jsonify({'followers': followers_data, 'pagination': pagination})
         else:
             return not_found()
     except Exception as e:
         logger.error(str(e))
         return internal_server_error()
+
 
 
 if __name__ == "__main__":
