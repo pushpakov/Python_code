@@ -10,11 +10,22 @@ from validations.validation import PersonSchema
 from flask.json import JSONEncoder
 from bson import json_util 
 
+# from dotenv import load_dotenv
+# import os
+
+# # load environment variables from .env file
+# load_dotenv()
+
+# # get environment variables
+# MONGODB_URI = os.getenv('MONGODB_URI')
+# DB_NAME = os.getenv('DB_NAME')
+# COLLECTION_NAME = os.getenv('COLLECTION_NAME')
+# SECRET_KEY = os.getenv('SECRET_KEY')   
 
 # define a custom encoder point to the json_util provided by pymongo (or its dependency bson)
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj): 
-        return json_util.default(obj) 
+        return json_util.default(obj)  
 
 app = Flask(__name__)
 app.secret_key = "secretkey"
@@ -98,8 +109,8 @@ def users():
         data = []
         for user in users:
             person = Person(user['name'], user['email'], user['password'], user['followers'])
-            person.id = str(user['_id'])
-            data.append(person)
+            person.id = str(user['_id']) 
+            data.append(person) 
 
         
 
@@ -233,12 +244,12 @@ def get_followers(user_id):
             {'$match': {'_id': ObjectId(user_id)}},
             {'$project': {'followers': 1}},  
             {'$unwind': '$followers'},
-            {'$skip': (page-1)*per_page},
+            {'$skip': (page-1)*per_page}, 
             {'$limit': per_page},
             {'$group': {'_id': None, 'followers': {'$push': '$followers'}, 'count': {'$sum': 1}}},
             {'$project': {'_id': 0, 'followers': 1, 'total_followers': '$count'}}
         ]
-
+ 
         result = list(collection.aggregate(pipeline))
 
         if len(result) > 0:

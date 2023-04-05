@@ -15,7 +15,7 @@ class Database:
         self.client = MongoClient(MONGODB_URI) 
         self.db = self.client[DB_NAME] 
 
-    def get_collection(self, COLLECTION_NAME):
+    def get_collection(self, COLLECTION_NAME): 
         return self.db[COLLECTION_NAME] 
     
 
