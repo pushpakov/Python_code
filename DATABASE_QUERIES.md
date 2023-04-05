@@ -1,8 +1,7 @@
-#### write queries for following ques:
 
-## Aggregation:
+                                                    # Aggregation:
 
-# How can I group documents in a collection based on a specific field and calculate the sum of another field for each group?
+## How can I group documents in a collection based on a specific field and calculate the sum of another field for each group?
 -->> Assuming the document contains the field like :
 ```
                         db.students.insertMany([
@@ -26,7 +25,7 @@
                         { "_id" : "kumar", "totalAmount" : 938000 }
 ```
 
-# How can I join two collections in MongoDB using the $lookup aggregation stage?
+## How can I join two collections in MongoDB using the $lookup aggregation stage?
 -->> To join the two collection in Mongodb we will first create or take two collection and then will join the one inside other collection    which will be collected inside an array 
 for example :- 
 
@@ -60,7 +59,7 @@ for example :-
                                 { "_id" : ObjectId("642d3031e4b1c016df8bc11b"), "id" : 2, "item_name" : "ball", "price" : 1700, "quantity" : 7, "customerInfo" : [ { "_id" : ObjectId("642d3031e4b1c016df8bc11c"), "order_id" : 2, "name" : "pushpak", "address" : "bokaro", "state" : "jharkhand" } ] }
         `
 
-# How can I use the $bucket aggregation stage to group documents into ranges based on a specific field?
+## How can I use the $bucket aggregation stage to group documents into ranges based on a specific field?
 -->> To use $bucket aggregatioon stage to group documents into ranges based on a specific field :
 
                 ```
@@ -101,11 +100,11 @@ for example :-
 
 ## Filter:
 
-#  How can I query a collection to return all documents that contain a specific field?
+##  How can I query a collection to return all documents that contain a specific field?
 -->> To query a collection to return all the documents that contain a specific field we can use field name along with the keyword `$exists : true` for example :
           `db.collection.find({field_name: {$exists: true}})`
 
-# How can I filter documents based on multiple criteria using the $and operator?
+## How can I filter documents based on multiple criteria using the $and operator?
 -->> To filter documents based on multiple criteria using the $and operator we can perform the operation like :
 
                     ```
@@ -134,7 +133,7 @@ for example :-
                                             { "_id" : ObjectId("642d3a2a42920827173fca90"), "id" : 5, "item_name" : "helmet", "price" : 1700, "quantity" : 78 }
                     ```
 
-#  How can I query a collection to return all documents that have a specific field value within an array?
+##  How can I query a collection to return all documents that have a specific field value within an array?
 
 -->> To query a collection to return all documents that have a specific field value within an array we can we the syntax as :
 
@@ -173,7 +172,7 @@ for example :-
 
 ## Update:
 
-#  How can I update a single document in a collection based on its ID?
+##  How can I update a single document in a collection based on its ID?
 
 -->> To update a single document in a collection based on it's ID we can follow the syntax  below :
 
@@ -198,7 +197,7 @@ for example :-
 
 
 
-#  How can I update multiple documents in a collection based on a specific field value using the $set operator?
+##  How can I update multiple documents in a collection based on a specific field value using the $set operator?
 
 -->> To update multiple documents in a collection based on a specific field value using the $set operator we can follow the below syntax :
 
@@ -222,7 +221,7 @@ for example :-
             ```
 
 
-#   How can I use the $inc operator to increment a specific field value in all documents that match a certain criteria?
+##   How can I use the $inc operator to increment a specific field value in all documents that match a certain criteria?
 -->> To use the $inc operator to increment a specific field value in all documents that match a certain criteria we can follow the syntax   below:
 
         ```
