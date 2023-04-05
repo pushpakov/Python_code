@@ -135,6 +135,7 @@ for example :-
                     ```
 
 #  How can I query a collection to return all documents that have a specific field value within an array?
+
 -->> To query a collection to return all documents that have a specific field value within an array we can we the syntax as :
 
                  ```
@@ -173,7 +174,10 @@ for example :-
 ## Update:
 
 #  How can I update a single document in a collection based on its ID?
+
 -->> To update a single document in a collection based on it's ID we can follow the syntax  below :
+
+        ```
             `Syntax : db.collection.updateOne(`
                                                 `{ _id: ObjectId("your-document-id-here") },`
                                                 `{ $set: { "field-to-update": "new-value" } }`
@@ -189,12 +193,13 @@ for example :-
 
                     <!-- RESULT -->
                                     { "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }   
-                    ```
+        ```
 
 
 
 
 #  How can I update multiple documents in a collection based on a specific field value using the $set operator?
+
 -->> To update multiple documents in a collection based on a specific field value using the $set operator we can follow the below syntax :
 
             ```
@@ -214,11 +219,12 @@ for example :-
 
                     <!-- RESULT -->
                                    { "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 } 
-                    ```
+            ```
 
 
 #   How can I use the $inc operator to increment a specific field value in all documents that match a certain criteria?
--->> To use the $inc operator to increment a specific field value in all documents that match a certain criteria we can follow the syntax below:
+-->> To use the $inc operator to increment a specific field value in all documents that match a certain criteria we can follow the syntax   below:
+
         ```
             `Syntax : `
                         `db.collection.updateMany(`
