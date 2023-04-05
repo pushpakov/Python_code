@@ -1,5 +1,5 @@
 
-                                                    # Aggregation:
+# Aggregation:
 
 ## How can I group documents in a collection based on a specific field and calculate the sum of another field for each group?
 -->> Assuming the document contains the field like :
