@@ -9,18 +9,12 @@ from logs.logger import setup_logger
 from validations.validation import PersonSchema 
 from flask.json import JSONEncoder
 from bson import json_util 
+from databases.data_base import * 
 
-# from dotenv import load_dotenv
-# import os
+# database instance and collection 
+db = Database(MONGODB_URI, DB_NAME)
+collection = db.get_collection(COLLECTION_NAME)
 
-# # load environment variables from .env file
-# load_dotenv()
-
-# # get environment variables
-# MONGODB_URI = os.getenv('MONGODB_URI')
-# DB_NAME = os.getenv('DB_NAME')
-# COLLECTION_NAME = os.getenv('COLLECTION_NAME')
-# SECRET_KEY = os.getenv('SECRET_KEY')   
 
 # define a custom encoder point to the json_util provided by pymongo (or its dependency bson)
 class CustomJSONEncoder(JSONEncoder):
@@ -31,9 +25,6 @@ app = Flask(__name__)
 app.secret_key = "secretkey"
 app.json_encoder = CustomJSONEncoder 
 
-client = MongoClient('mongodb://localhost:27017/')
-db = client['InstaLike']
-collection = db['User']
  
 logger = setup_logger()
 
@@ -41,7 +32,7 @@ person_schema = PersonSchema()
 
 # method to handle not found error
 @app.errorhandler(404)
-def not_found(error=None):
+def not_found(error=None): 
     message = {
         'status': 404,
         'message': 'Not Found: ' + request.url 
@@ -80,10 +71,13 @@ def add_user():
 
         result = collection.insert_one(user_data.__dict__)
 
-        resp = jsonify('User Added successfully')
-        resp.status_code = 200
+        # resp = jsonify('User Added successfully')
+        # print(resp) 
+        # resp.status_code = 201
 
-        return resp
+        # return resp
+        return jsonify({"message":"User added successfully", "status_code": 201}),201
+    
 
     except Exception as e:
         # print(e) 
@@ -187,7 +181,8 @@ def update_user(id):
             update_data['password'] = generate_password_hash(_json['password'])
  
         if _id and update_data and request.method == "PUT":
-            collection.update_one({'_id':ObjectId(_id)}, {'$set': update_data})
+            res =  collection.update_one({'_id':ObjectId(_id)}, {'$set': update_data})
+            print(res)   
  
             return jsonify("User updated successfully")  
  
@@ -247,7 +242,7 @@ def get_followers(user_id):
             {'$skip': (page-1)*per_page}, 
             {'$limit': per_page},
             {'$group': {'_id': None, 'followers': {'$push': '$followers'}, 'count': {'$sum': 1}}},
-            {'$project': {'_id': 0, 'followers': 1, 'total_followers': '$count'}}
+            {'$project': {'_id': 0, 'followers': 1, 'total_followers': '$count'}}    
         ]
  
         result = list(collection.aggregate(pipeline))

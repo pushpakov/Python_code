@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
 from typing import List
+from dataclass_wizard import JSONWizard
 
 @dataclass
-class Person:
+class Person(JSONWizard): 
     name: str
     email: str
     password: str
@@ -10,3 +11,4 @@ class Person:
 
 
 
+ 

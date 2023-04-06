@@ -1,0 +1,11 @@
+2023-04-06 16:30:50,931 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 16:30:51,495 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 16:30:51,501 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 16:30:52,092 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 17:16:00,279 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 17:26:03,501 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 17:26:04,644 - logs.logger - ERROR - '{object_id}' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 17:27:03,276 - logs.logger - ERROR - '1' is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+2023-04-06 17:43:59,303 - logs.logger - ERROR - 'UpdateResult' object has no attribute '_id'
+2023-04-06 17:44:05,032 - logs.logger - ERROR - 'UpdateResult' object has no attribute '_id'
+2023-04-06 17:44:33,934 - logs.logger - ERROR - 'UpdateResult' object has no attribute 'id'
