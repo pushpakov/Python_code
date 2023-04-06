@@ -182,13 +182,12 @@ def update_user(id):
  
         if _id and update_data and request.method == "PUT":
             res =  collection.update_one({'_id':ObjectId(_id)}, {'$set': update_data})
-            print(res)   
- 
-            return jsonify("User updated successfully")  
- 
-        else:
-            return not_found() 
-    except Exception as e:
+            if res.modified_count == 1:
+                print(res) 
+                return jsonify("User updated successfully")
+            else:
+                return not_found() 
+    except Exception as e:    
         logger.error(str(e)) 
         return internal_server_error() 
 
