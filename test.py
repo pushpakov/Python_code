@@ -4,14 +4,20 @@ from app import app
  
 class FlaskAppTest(unittest.TestCase):
     def setUp(self):
-        self.client = app.test_client()
+        self.client = app.test_client() 
 
-    def test_add_user(self):
+    def cleanup(self):
+        # Clean up any resources created during testing
+        # For example, delete any temporary files, or revert any changes made to a database
+        self.client.delete_one({"email": "testuser@example.com"})
+
+    def test_add_user(self): 
         data = { 
             "name": "Test User",
             "email": "testuser@example.com",
             "password": "password"
         }
+
         response = self.client.post('/add', json=data)
         print(response.json)
         self.assertEqual(response.status_code, 201)   

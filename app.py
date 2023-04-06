@@ -53,7 +53,7 @@ def internal_server_error(error=None):
     return resp
 
 # add user
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods=['POST']) 
 def add_user():
     try:
         json_data = request.get_json()
@@ -71,12 +71,7 @@ def add_user():
 
         result = collection.insert_one(user_data.__dict__)
 
-        # resp = jsonify('User Added successfully')
-        # print(resp) 
-        # resp.status_code = 201
-
-        # return resp
-        return jsonify({"message":"User added successfully", "status_code": 201}),201
+        return jsonify({"message":"User added successfully", "status_code": 201}),201 
     
 
     except Exception as e:
