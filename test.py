@@ -1,17 +1,19 @@
 import unittest
 from bson.objectid import ObjectId
-from app import app
+from app import app   
+
  
 class FlaskAppTest(unittest.TestCase):
     def setUp(self):
         self.client = app.test_client() 
 
-    def cleanup(self):
-        # Clean up any resources created during testing
-        # For example, delete any temporary files, or revert any changes made to a database
-        self.client.delete_one({"email": "testuser@example.com"})
+    def tearDown(self): 
+        # print("tearDown called")
+        email = "testuser@example.com"
+        self.client.delete(f"/delete?email={email}")
 
-    def test_add_user(self): 
+
+    def test_add_user(self):  
         data = { 
             "name": "Test User",
             "email": "testuser@example.com",
@@ -21,7 +23,8 @@ class FlaskAppTest(unittest.TestCase):
         response = self.client.post('/add', json=data)
         print(response.json)
         self.assertEqual(response.status_code, 201)   
-        self.assertEqual(response.json["message"], "User added successfully")  
+        self.assertEqual(response.json["message"], "User added successfully") 
+
 
     def test_get_users(self):
         response = self.client.get('/users?page=1&limit=10')
@@ -65,4 +68,4 @@ class FlaskAppTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 

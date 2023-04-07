@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, request, url_for
 import math 
-from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
-from typing import List
 from bson import ObjectId 
 from models.model import Person 
 from logs.logger import setup_logger 
@@ -156,6 +154,27 @@ def delete_user(id):
         logger.error(str(e))
         return internal_server_error() 
 
+
+
+# delete user using user email
+@app.route('/delete', methods=['DELETE'])
+def delete_user_by_mail():
+    try:
+        email = request.args.get('email')
+        
+        result = collection.delete_one({'email': email})  
+        # print(result) 
+        if result.deleted_count == 0:
+            return not_found() 
+        else:
+            resp = jsonify("User deleted successfully") 
+            resp.status_code = 200
+            return resp
+
+    except Exception as e:
+        logger.error(str(e)) 
+        return internal_server_error()
+
  
 # update a particular user using user id 
 @app.route('/update/<id>', methods=['PUT']) 
@@ -262,7 +281,6 @@ def get_followers(user_id):
     except Exception as e:
         logger.error(str(e))
         return internal_server_error()
-
 
 
 if __name__ == "__main__":
